@@ -9,7 +9,8 @@ const UserProfileForm = () => {
   const { data: session, update } = useSession()
 
   async function handleSubmit(formData) {
-    const { name, email } = Object.fromEntries(formData.entries())
+    const { name } = Object.fromEntries(formData.entries())
+    const email = session?.user?.email
 
     if (!name || !email) return
 
@@ -32,7 +33,6 @@ const UserProfileForm = () => {
       <h2 className='mb-6 text-lg font-medium'>Update your info</h2>
 
       <form action={handleSubmit} className='flex justify-between gap-3'>
-        <input type='hidden' name='email' value={session?.user?.email} />
         <input
           type='text'
           name='name'
