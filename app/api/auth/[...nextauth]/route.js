@@ -4,6 +4,8 @@ import GoogleProvider from 'next-auth/providers/google'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import clientPromise from '@/lib/mongo/client'
 
+import { sendVerificationRequest } from '@/utils'
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -18,7 +20,12 @@ export const authOptions = {
           role: profile.role ?? 'user'
         }
       }
-    })
+    }),
+    {
+      id: 'resend',
+      type: 'email',
+      sendVerificationRequest
+    }
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
